@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "##### START of Setup kubeconfig! #####"
+#변수 선언
 CLUSTER=kubernetes
 NS=""
 # Get parameter
@@ -11,6 +12,7 @@ if ([ $# == 0 ]) || ([ $# -eq 1 ] && [ "$1" == "-h" -o "$1" == "--help" ]); then
   exit 2
 fi
 
+# 변수가 1개면 상단 구문 적용, 변수가 두개면 elif 적용
 if [ $# == 1 ]; then
   NS=$1
 elif [ $# == 2 ]; then
@@ -21,7 +23,7 @@ fi
 # check user and create if not
 
 # Switch to kubernetes-admin context
-#kubectl config use-context kubernetes-admin@kubernetes
+# kubectl config use-context kubernetes-admin@kubernetes
 
 # Create namespace if not exists
 chk=`kubectl get ns | grep ${NS}`
@@ -61,6 +63,8 @@ else
 fi
 
 # Get token of the serviceaccount
+# secret에 cut으로 sa 이름 추출
+# TOKEN에 cut으로 token 값 추출 후 tr로 공백 제거
 secret=`kubectl get secret -n ${NS} | grep sa-${NS} | cut -d " " -f1`
 TOKEN=`kubectl describe secret ${secret} -n ${NS} | grep token: | cut -d ":" -f2 | tr -d " "`
 
