@@ -73,6 +73,7 @@ chk=`kubectl config view | grep "name: sa-{NS}"`
 if [ $? == 1 ]; then
   echo "[ Create user sa-${NS} in kubeconfig ]"
   kubectl config set-credentials sa-${NS} --token=${TOKEN}
+  kubectl config set-credentials sa-${NS} --token=${TOKEN} --
 else
   echo "[ User sa-${NS} already exists in kubeconfig ]"
 fi
