@@ -102,8 +102,8 @@ echo "[ Create current-context info in kubeconfig ]"
 
 # Test
 current=`kubectl config current-context`
-kubectl config use-context ${NS}
-kubectl get all
+#kubectl config use-context ${NS}
+kubectl get all -n ${NS}
 if [ $? == 0 ]; then
   echo "SUCCESS to setup kubeconfig !!!"
 else
