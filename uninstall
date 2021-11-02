@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo "##### DELETE of Setup kubeconfig! #####"
 NS=$1
 
@@ -16,6 +15,7 @@ if [ $? == 1 ]; then
 else
   echo "kubernetes-admin@kubernetes is the current-context."
 fi
+echo -e "\n"
 
 echo "[ Delete role ]======================================================="
 chk=`kubectl get role | grep rb-view-sa-${NS}`
@@ -24,6 +24,7 @@ if [ $? == 1 ]; then
 else
   kubectl delete role ro-sa-${NS}
 fi
+echo -e "\n"
 
 echo "[ Delete rolebinding ]================================================"
 chk=`kubectl get rolebinding | grep rb-sa-${NS}`
@@ -32,32 +33,36 @@ if [ $? == 1 ]; then
 else
   kubectl delete rolebindings -n ${NS} rb-sa-${NS}
 fi
+echo -e "\n"
 
-echo "[ Delete serviceaccount ]========================================"
+echo "[ Delete serviceaccount ]============================================="
 chk=`kubectl get sa -n ${NS}  | grep sa-${NS}`
 if [ $? == 1 ]; then
   echo "rb-view-sa-${NS} already delete"
 else  
   kubectl delete sa -n ${NS} sa-${NS}
 fi
+echo -e "\n"
 
-echo "[ Delete namespace ]============================================="
+echo "[ Delete namespace ]=================================================="
 chk=`kubectl get ns | grep ${NS}`
 if [ $? == 1 ]; then
   echo "${NS} already delete"
 else  
   kubectl delete ns ${NS}
 fi
+echo -e "\n"
 
-echo "[ Delete user ]=================================================="
+echo "[ Delete user ]======================================================="
 chk=`kubectl config view | grep sa-${NS}`
 if [ $? == 1 ]; then
   echo "sa-${NS} already delete"
 else
   kubectl config unset users.sa-${NS}
 fi
+echo -e "\n"
 
-echo "[ Delete context ]==============================================="
+echo "[ Delete context ]===================================================="
 chk=`kubectl config view | grep ${NS}`
 if [ $? == 1 ]; then
   echo "${NS} context already delete"
@@ -69,3 +74,4 @@ cd /root/.kube/
 rm -f ${NS}.config
 
 exit 0
+
