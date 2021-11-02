@@ -1,0 +1,71 @@
+#!/bin/bash
+
+echo "##### DELETE of Setup kubeconfig! #####"
+NS=$1
+
+if ([ $# == 0 ]) || ([ $# -eq 1 ] && [ "$1" == "-h" -o "$1" == "--help" ]); then
+  echo "setup-config <NAMESPACE>"
+  echo " NAMESPACE: namespace. 필수값임"
+  exit 2
+fi
+
+echo "[ Switch current-context ]============================================"
+chk=`kubectl config current-context | grep kubernetes-admin@kubernetes`
+if [ $? == 1 ]; then
+  kubectl config use-context kubernetes-admin@kubernetes
+else
+  echo "kubernetes-admin@kubernetes is the current-context."
+fi
+
+echo "[ Delete role ]======================================================="
+chk=`kubectl get role | grep rb-view-sa-${NS}`
+if [ $? == 1 ]; then
+  echo "role ro-sa-${NS} already delete"
+else
+  kubectl delete role ro-sa-${NS}
+fi
+
+echo "[ Delete rolebinding ]================================================"
+chk=`kubectl get rolebinding | grep rb-sa-${NS}`
+if [ $? == 1 ]; then
+  echo "Rolebinding rb-sa-${NS} already delete"
+else
+  kubectl delete rolebindings -n ${NS} rb-sa-${NS}
+fi
+
+echo "[ Delete serviceaccount ]========================================"
+chk=`kubectl get sa -n ${NS}  | grep sa-${NS}`
+if [ $? == 1 ]; then
+  echo "rb-view-sa-${NS} already delete"
+else  
+  kubectl delete sa -n ${NS} sa-${NS}
+fi
+
+echo "[ Delete namespace ]============================================="
+chk=`kubectl get ns | grep ${NS}`
+if [ $? == 1 ]; then
+  echo "${NS} already delete"
+else  
+  kubectl delete ns ${NS}
+fi
+
+echo "[ Delete user ]=================================================="
+chk=`kubectl config view | grep sa-${NS}`
+if [ $? == 1 ]; then
+  echo "sa-${NS} already delete"
+else
+  kubectl config unset users.sa-${NS}
+fi
+
+echo "[ Delete context ]==============================================="
+chk=`kubectl config view | grep ${NS}`
+if [ $? == 1 ]; then
+  echo "${NS} context already delete"
+else
+  kubectl config delete-context ${NS}
+fi
+
+cd /root/.kube/
+rm -f ${NS}.config
+
+exit 0
