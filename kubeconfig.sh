@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "##### START of Setup kubeconfig! #####"
 CLUSTER=kubernetes
 NS=""
