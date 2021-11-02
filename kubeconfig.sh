@@ -112,6 +112,15 @@ else
   echo "FAIL to setup kubeconfig !!!"
 fi
 
+echo "[ Transfer kubeconfig file ]"
+echo -n "Enter your ID : "
+read ID
+echo -n "Enter your IP : "
+read IP
+
+scp /root/.kube/${NS}.config $ID@$IP:/C:
+
+
 echo "##### END of Setup kubeconfig! #####"
 
 exit 0
