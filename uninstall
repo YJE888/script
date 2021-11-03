@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo "##### DELETE of Setup kubeconfig! #####"
 NS=$1
 
@@ -74,4 +75,3 @@ cd /root/.kube/
 rm -f ${NS}.config
 
 exit 0
-
