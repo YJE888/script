@@ -54,6 +54,7 @@ else
 fi
 echo -e "\n"
 
+# /root/.kube/config 파일에서 sa-${NS} 내용 삭제
 echo "[ Delete user ]======================================================="
 chk=`kubectl config view | grep sa-${NS}`
 if [ $? == 1 ]; then
@@ -63,6 +64,7 @@ else
 fi
 echo -e "\n"
 
+# /root/.kube/config 파일에서 ${NS} context 내용 삭제
 echo "[ Delete context ]===================================================="
 chk=`kubectl config view | grep ${NS}`
 if [ $? == 1 ]; then
@@ -71,6 +73,7 @@ else
   kubectl config delete-context ${NS}
 fi
 
+# # /root/.kube/${NS}.config 파일 삭제
 cd /root/.kube/
 rm -f ${NS}.config
 
