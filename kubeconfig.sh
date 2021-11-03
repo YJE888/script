@@ -31,6 +31,7 @@ if [ $? == 1 ]; then
 else
   echo "[ namespace ${NS} already exists ]"
 fi
+echo -e "\n"
 
 # Create service account if not exists
 chk=`kubectl get sa -n ${NS} | grep sa-${NS}`
@@ -41,6 +42,7 @@ if [ $? == 1 ]; then
 else
   echo "[ serviceaccount sa-${NS} already exists in ${NS} ]"
 fi
+echo -e "\n"
 
 # Create role
 chk=`kubectl get role -n ${NS} | grep ro-sa-${NS}`
@@ -50,6 +52,7 @@ if [ $? == 1 ]; then
 else
   echo "[ role ro-sa-${NS} already exists ]"
 fi
+echo -e "\n"
 
 # Create rolebinding: admin role for sa to created namespace
 chk=`kubectl get rolebinding -n ${NS} | grep rb-sa-${NS}`
@@ -59,6 +62,7 @@ if [ $? == 1 ]; then
 else
   echo "[ rolebinding rb-sa-${NS} already exists ]"
 fi
+echo -e "\n"
 
 # Create rolebinding: view clusterrole for sa to all namespace
 #chk=`kubectl get clusterrolebinding | grep crb-view-sa-${NS}`
@@ -76,6 +80,7 @@ TOKEN=`kubectl describe secret ${secret} -n ${NS} | grep token: | cut -d ":" -f2
 # Cluster info
 echo "[ Create cluster info in kubeconfig ]"
   kubectl config set-cluster ${CLUSTER} --server=https://192.168.137.100:6443 --insecure-skip-tls-verify --kubeconfig=/root/.kube/${NS}.config
+echo -e "\n"
 
 # Create user
 chk=`kubectl config view | grep "name: sa-{NS}"`
@@ -86,6 +91,7 @@ if [ $? == 1 ]; then
 else
   echo "[ User sa-${NS} already exists in kubeconfig ]"
 fi
+echo -e "\n"
 
 # Create context
 chk=`kubectl config view | grep "name: ${NS}"`
@@ -96,11 +102,13 @@ if [ $? == 1 ]; then
 else
   echo "[ Context ${NS} already exists in kubeconfig ]"
 fi
+echo -e "\n"
 
 # Current-context info
 echo "[ Create current-context info in kubeconfig ]"
   kubectl config set-context ${NS} --cluster=${CLUSTER} --namespace=${NS} --user=sa-${NS} --kubeconfig=/root/.kube/${NS}.config
   kubectl config use-context ${NS} --kubeconfig=/root/.kube/${NS}.config
+echo -e "\n"
 
 # Test
 current=`kubectl config current-context`
@@ -111,6 +119,7 @@ if [ $? == 0 ]; then
 else
   echo "FAIL to setup kubeconfig !!!"
 fi
+echo -e "\n"
 
 echo "[ Transfer kubeconfig file ]"
 echo -n "Enter your ID : "
@@ -119,7 +128,7 @@ echo -n "Enter your IP : "
 read IP
 
 scp /root/.kube/${NS}.config $ID@$IP:/C:
-
+echo -e "\n"
 
 echo "##### END of Setup kubeconfig! #####"
 
