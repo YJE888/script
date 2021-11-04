@@ -48,7 +48,7 @@ echo -e "\n"
 chk=`kubectl get role -n ${NS} | grep ro-sa-${NS}`
 if [ $? == 1 ]; then
   echo "[ Create role ro-sa-${NS} ]"
-  kubectl create role ro-sa-${NS} --verb=get --verb=list --verb=watch --resource=pods -n ${NS}
+  kubectl create role ro-sa-${NS} --verb=get --verb=list --verb=watch --verb=create --resource=pods,pods/exec,deployments -n ${NS}
 else
   echo "[ role ro-sa-${NS} already exists ]"
 fi
