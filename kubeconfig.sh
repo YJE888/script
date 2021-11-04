@@ -122,10 +122,10 @@ fi
 echo -e "\n"
 
 echo "[ Transfer kubeconfig file ]"
-echo -n "Enter your ID : "
-read ID
 echo -n "Enter your IP : "
 read IP
+echo -n "Enter your ID : "
+read ID
 
 scp /root/.kube/${NS}.config $ID@$IP:/C:
 echo -e "\n"
