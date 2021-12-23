@@ -1,8 +1,13 @@
 echo "SETUP CEPH PREINSTALL!"
 
+echo -e "SETUP HOSTNAME"
+hostnamectl set-hostname $1
+echo -e "\n"
+
 echo -e "TURN OFF FIREWALLD"
 systemctl stop firewalld
 systemctl disable firewalld
+echo -e "\n"
 
 echo -e "SETUP HOSTFILE"
 echo -n "Enter the new hostname: "
@@ -20,9 +25,11 @@ cat <<EOF >> /etc/hosts
 192.168.137.205 osd-5
 $IP     $HOST
 EOF
+echo -e "\n"
 
 echo -e "INSTALL PYTHON3"
 yum -y install python3
+echo -e "\n"
 
 echo -e "INSTALL NTP"
 yum -y install ntp
@@ -33,6 +40,7 @@ sed -i 's|server 3.centos.pool.ntp.org iburst|#server 3.centos.pool.ntp.org ibur
 systemctl start ntpd
 systemctl enable ntpd
 ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+echo -e "\n"
 
 echo -e "INSTALL DOCKER"
 yum install -y yum-utils \
