@@ -9,23 +9,23 @@ systemctl stop firewalld
 systemctl disable firewalld
 echo -e "\n"
 
-echo -e "SETUP HOSTFILE"
-echo -n "Enter the new hostname: "
-read HOST
-echo -n "Enter the new host's IP: "
-read IP
-cat <<EOF >> /etc/hosts
-192.168.137.199 mon1
-192.168.137.200 mon2
-192.168.137.201 osd-1
-192.168.137.202 osd-2
-192.168.137.203 osd-3
-192.168.137.204 osd-4
-192.168.137.198 mon3
-192.168.137.205 osd-5
-$IP     $HOST
-EOF
-echo -e "\n"
+#echo -e "SETUP HOSTFILE"
+#echo -n "Enter the new hostname: "
+#read HOST
+#echo -n "Enter the new host's IP: "
+#read IP
+#cat <<EOF >> /etc/hosts
+#192.168.137.199 mon1
+#192.168.137.200 mon2
+#192.168.137.201 osd-1
+#192.168.137.202 osd-2
+#192.168.137.203 osd-3
+#192.168.137.204 osd-4
+#192.168.137.198 mon3
+#192.168.137.205 osd-5
+#$IP     $HOST
+#EOF
+#echo -e "\n"
 
 echo -e "INSTALL PYTHON3"
 yum -y install python3
