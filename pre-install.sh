@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "SETUP CEPH PREINSTALL!"
 
 echo -e "SETUP HOSTNAME"
