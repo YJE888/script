@@ -22,8 +22,8 @@ for ((i=0; i<5; i++)); do
         if [ $? == 0 ]
         then
                 echo " DNS 등록 성공 "
-                break
                 python3 ingress_create.py ${PNAME} ${NS} ${CNAME}.ehostcloud.xyz
+                break
         else
                 echo " DNS 등록 실패 "
         fi
