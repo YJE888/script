@@ -71,7 +71,7 @@ EOF
 fi
 
 echo -e "${BLUE}#### Check OriginIssuer status ####${NC}"
-chk=`kubectl get originissuer.cert-manager.k8s.cloudflare.com prod-issuer -o json | jq .status.conditions | grep True`
+chk=`kubectl get originissuer.cert-manager.k8s.cloudflare.com prod-issuer -n ${NS} -o json | jq .status.conditions | grep True`
 if [ $? == 0 ]
 then
         echo -e " OriginIssuer status is ${GREEN}TRUE${NC} "
