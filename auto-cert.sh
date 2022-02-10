@@ -3,6 +3,8 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m'
+# a-z 까지 중에 4글자 랜덤 출력(tr -dc 'a-zA-z' 로 준다면 영어 대소문자 4자리 )
+# NS=$(cat /dev/urandom | tr -dc 'a-z' | fold -w 4 | sed 1q)
 
 NS=""
 if [ $# == 0 ]; then
